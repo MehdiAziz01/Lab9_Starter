@@ -22,6 +22,10 @@ function setupConsoleButtons() {
     // Console Error
     buttons[1].addEventListener('click', () => {
         console.error('This is an error message');
+        // Also report to TrackJS
+        if (window.TrackJS) {
+            TrackJS.track('Console Error button clicked');
+        }
     });
 
     // Console Count
@@ -32,11 +36,19 @@ function setupConsoleButtons() {
     // Console Warn
     buttons[3].addEventListener('click', () => {
         console.warn('This is a warning message');
+        // Also report to TrackJS
+        if (window.TrackJS) {
+            TrackJS.track('Console Warn button clicked');
+        }
     });
 
     // Console Assert
     buttons[4].addEventListener('click', () => {
         console.assert(1 === 2, 'Assertion failed: 1 is not equal to 2');
+        // Also report failed assertions to TrackJS
+        if (window.TrackJS && 1 !== 2) {
+            TrackJS.track('Console Assert button failed');
+        }
     });
 
     // Console Clear
@@ -101,10 +113,17 @@ function setupConsoleButtons() {
 
     // Trigger Global Error
     buttons[14].addEventListener('click', () => {
+        // Intentionally cause an error that might not be caught by try/catch
+        // For example, calling a non-existent function
         try {
-            throw new Error('This is a test error');
+            // This will be caught by the window.onerror handler
+            nonExistentFunction();
         } catch (error) {
-            console.error('Caught error:', error);
+            console.error('Caught error in button click:', error);
+            // Also report to TrackJS
+            if (window.TrackJS) {
+                TrackJS.track(error);
+            }
         }
     });
 }
@@ -146,9 +165,17 @@ function setupCalculator() {
         } catch (error) {
             if (error instanceof ValidationError) {
                 output.innerHTML = `Error: ${error.message}`;
+                // Report validation errors to TrackJS
+                if (window.TrackJS) {
+                    TrackJS.track(error.message);
+                }
             } else {
                 output.innerHTML = 'An unexpected error occurred';
                 console.error('Calculator error:', error);
+                // Report other calculator errors to TrackJS
+                if (window.TrackJS) {
+                    TrackJS.track(`Calculator error: ${error.message}`);
+                }
             }
         }
     });
@@ -163,6 +190,12 @@ window.onerror = function(message, source, lineno, colno, error) {
         colno,
         error
     });
+    // Report global errors to TrackJS
+    if (window.TrackJS && error) {
+        TrackJS.track(error);
+    } else if (window.TrackJS) {
+        TrackJS.track(`Global error: ${message} at ${source}:${lineno}:${colno}`);
+    }
     return true; // Prevents the default browser error handling
 };
 

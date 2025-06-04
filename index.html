@@ -8,12 +8,12 @@
   <title>Lab 9</title>
 
   <!-- TrackJS Integration -->
-  <script type="text/javascript">
-    window._trackJs = { token: 'YOUR_TRACKJS_TOKEN' };
-    (function(t,r,a,c,k,j,s){
-    s=t.createElement(r);s.type='text/javascript';s.async=!0;s.src=a;
-    j=t.getElementsByTagName(r)[0];j.parentNode.insertBefore(s,j);
-    })(document,'script','https://cdn.trackjs.com/releases/current/tracker.js');
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+  <script>
+    window.TrackJS && TrackJS.install({
+      token: "55c2156a394646b4a9f90892c9083c3f"
+      // for more configuration options, see https://docs.trackjs.com
+    });
   </script>
 
   <style>
