@@ -113,18 +113,8 @@ function setupConsoleButtons() {
 
     // Trigger Global Error
     buttons[14].addEventListener('click', () => {
-        // Intentionally cause an error that might not be caught by try/catch
-        // For example, calling a non-existent function
-        try {
-            // This will be caught by the window.onerror handler
-            nonExistentFunction();
-        } catch (error) {
-            console.error('Caught error in button click:', error);
-            // Also report to TrackJS
-            if (window.TrackJS) {
-                TrackJS.track(error);
-            }
-        }
+        // Let the error bubble to the global handler:
+        nonExistentFunction();
     });
 }
 
@@ -177,6 +167,8 @@ function setupCalculator() {
                     TrackJS.track(`Calculator error: ${error.message}`);
                 }
             }
+        } finally {
+            console.log('Finished calculation attempt (finally block)');
         }
     });
 }
