@@ -7,6 +7,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lab 9</title>
 
+  <!-- TrackJS Integration -->
+  <script type="text/javascript">
+    window._trackJs = { token: 'YOUR_TRACKJS_TOKEN' };
+    (function(t,r,a,c,k,j,s){
+    s=t.createElement(r);s.type='text/javascript';s.async=!0;s.src=a;
+    j=t.getElementsByTagName(r)[0];j.parentNode.insertBefore(s,j);
+    })(document,'script','https://cdn.trackjs.com/releases/current/tracker.js');
+  </script>
+
   <style>
     button {
       margin: 3px;
@@ -87,22 +96,7 @@
     </section>
   </main>
 
-  <script>
-    let form = document.querySelector('form');
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-      let output = document.querySelector('output');
-      let firstNum = document.querySelector('#first-num').value;
-      let secondNum = document.querySelector('#second-num').value;
-      let operator = document.querySelector('#operator').value;
-      output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
-    });
-
-    let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
-
-    // Start your code here
-    // You may move this JS to another file if you wish
-  </script>
+  <script src="script.js"></script>
 </body>
 
 </html>
